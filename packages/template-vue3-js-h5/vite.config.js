@@ -7,9 +7,7 @@ import minipic from 'vite-plugin-minipic'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-
-const mode = 'development' // 上线改为production
-
+const mode = 'development'
 const pathSrc = path.resolve(__dirname, 'src')
 const env = loadEnv(mode, process.cwd())
 
@@ -46,11 +44,10 @@ export default defineConfig({
 		proxy: {
 			// 反向代理解决跨域
 			[env.VITE_APP_BASE_API]: {
-				target: 'http://vapi.youlai.tech', // 线上接口地址
-				// target: 'http://localhost:8989',  // 本地接口地址 , 后端工程仓库地址：https://gitee.com/youlaiorg/youlai-boot
+				target: 'http://localhost:8989',
 				changeOrigin: true,
 				rewrite: (path) =>
-					path.replace(new RegExp('^' + env.VITE_APP_BASE_API), '') // 替换 /dev-api 为 target 接口地址
+					path.replace(new RegExp('^' + env.VITE_APP_BASE_API), '')
 			}
 		}
 	}
