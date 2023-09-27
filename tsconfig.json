@@ -1,0 +1,22 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"types": ["node"],
+		"lib": ["ESNext", "DOM", "DOM.Iterable"],
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"strict": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"declaration": true,
+		"declarationDir": "./types",
+		"resolveJsonModule": true,
+		"baseUrl": ".",
+		"skipLibCheck": true,
+		"skipDefaultLibCheck": true,
+		"noUnusedLocals": true,
+		"paths": {}
+	},
+	"include": ["packages", "*.d.ts", "examples"],
+	"exclude": ["node_modules", "**/**/*.md", "**/dist", "dist"]
+}
