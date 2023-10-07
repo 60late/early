@@ -8,6 +8,7 @@ import { execCommand } from './exec'
 import { createDir, copyDir, checkMkdirExists } from './copy'
 import { NameToFunctionMap, ProjectConfig } from './types'
 import type { Options as BoxenOptions } from 'boxen'
+import { realpathSync } from 'fs'
 
 /**
  * @description: 预设模板模式
@@ -56,34 +57,12 @@ const handleGitMode = async (config: ProjectConfig) => {
 }
 
 /**
- * @description: 自定义模板模式
+ * @description: 拉取远程git模板
  */
-const handleCustomMode = async (config: ProjectConfig) => {
-	const answers = await inquirer.prompt([
-		{
-			type: 'list',
-			name: 'frame',
-			message: '使用什么框架',
-			choices: ['vue', 'react']
-		},
-		{
-			type: 'list',
-			name: 'platform',
-			message: '平台',
-			choices: ['PC端', '移动端']
-		},
-		{
-			type: 'confirm',
-			name: 'typescript',
-			message: '是否使用typescript'
-		},
-		{
-			type: 'list',
-			name: 'ui',
-			message: '使用什么UI框架',
-			choices: ['Element Plus', 'Ant Design Vue', 'Vant UI']
-		}
-	])
+const handleFetchGitRepo = async (config: ProjectConfig, gitRepo: string, targetDir: string, spinner: Ora) => {
+	createDir(targetDir)
+	const command = `git clone ${gitRepo} ./`
+	await execCommand(command, targetDir)
 }
 
 /**
@@ -97,12 +76,55 @@ const handleInstall = async (config: ProjectConfig, targetDir: string, spinner: 
 }
 
 /**
- * @description: 拉取远程git模板
+ * @description: 自定义模板模式
  */
-const handleFetchGitRepo = async (config: ProjectConfig, gitRepo: string, targetDir: string, spinner: Ora) => {
-	createDir(targetDir)
-	const command = `git clone ${gitRepo} ./`
-	await execCommand(command, targetDir)
+const handleCustomMode = async (config: ProjectConfig) => {
+	const { frame, platform } = await inquirer.prompt([
+		{
+			type: 'list',
+			name: 'frame',
+			message: '使用什么框架',
+			choices: ['vue', 'react']
+		},
+		{
+			type: 'list',
+			name: 'platform',
+			message: '平台',
+			choices: ['PC', 'H5', '小程序']
+		}
+	])
+
+	const commonConfig = [
+		{
+			type: 'list',
+			name: 'ui',
+			message: '使用什么UI框架',
+			choices: handleUiConfig(frame, platform)
+		},
+		{
+			type: 'confirm',
+			name: 'typescript',
+			message: '是否使用typescript'
+		}
+	]
+
+	let answers = await inquirer.prompt(commonConfig)
+	answers = { frame, platform, ...answers }
+	console.log('ansers', answers)
+}
+
+/**
+ * @description: set ui choices
+ * @param {string} frame current frame. `vue` | `react`
+ * @param {string} platform current platform. `PC` | `H5`
+ */
+const handleUiConfig = (frame: string, platform: string) => {
+	/** vue */
+	if (frame === 'vue' && platform === 'PC') return ['Element Plus', 'Ant Design Vue']
+	if (frame === 'vue' && platform === 'H5') return ['Vant']
+	/** react */
+	if (frame === 'react' && platform === 'PC') return ['Ant Design']
+	if (frame === 'react' && platform === 'H5') return ['Ant Design Mobie']
 }
 
 /**
@@ -116,13 +138,13 @@ const handleSuccessLog = (config: ProjectConfig) => {
 		titleAlignment: 'center'
 	}
 	const logContent = `${chalk.green(`🎉 项目创建成功!`)} \n${chalk.cyanBright(
-		`🎯 cd ${config.name} && npm run dev 进行项目预览!`
+		`🎯 切换到 ${config.name} 进行项目预览!`
 	)}`
 	logger(boxen(logContent, boxenConfig))
 }
 
 /**
- * @description: 用户选择模式对应方法的map
+ * @description: 用户选择模式对应方法的map,策略模式
  */
 const MODE_MAP: NameToFunctionMap = {
 	预设模板模式: handlePresetMode,
