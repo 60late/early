@@ -1,5 +1,11 @@
 # template-vue3-js-h5
 
+## 1.1.3
+
+### Patch Changes
+
+- change name
+
 ## 1.1.2
 
 ### Patch Changes
