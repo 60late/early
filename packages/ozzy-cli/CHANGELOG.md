@@ -1,5 +1,11 @@
 # ozzy-cli
 
+## 1.1.2
+
+### Patch Changes
+
+- change path name
+
 ## 1.1.1
 
 ### Patch Changes

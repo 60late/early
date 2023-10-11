@@ -1,5 +1,6 @@
 {
-	"name": "ozzy-cli",
+	"name": "@ozzy/ozzy-monorepo",
+	"private": true,
 	"version": "0.0.0",
 	"description": "",
 	"main": "index.js",
@@ -11,8 +12,8 @@
 		"lint:fix": "pnpm run lint --fix",
 		"format": "prettier --write \"./**/*.{html,vue,ts,js,json}\"",
 		"prepare": "husky install",
-		"changeset": "changeset add",
-		"changeset-version": "changeset version",
+		"cs": "changeset",
+		"csv": "changeset version",
 		"release": "changeset publish --registry=https://registry.npmjs.com/"
 	},
 	"keywords": [],
