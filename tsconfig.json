@@ -17,6 +17,6 @@
 		"noUnusedLocals": true,
 		"paths": {}
 	},
-	"include": ["packages", "*.d.ts", "examples"],
+	"include": ["packages", "*.d.ts", "examples", "src/*"],
 	"exclude": ["node_modules", "**/**/*.md", "**/dist", "dist"]
 }

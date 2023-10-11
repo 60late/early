@@ -47,7 +47,7 @@ export const copyDir = async (from: string, to: string, options) => {
  * @param {*} to
  * @return {*}
  */
-const copyFile = (from, to) => {
+const copyFile = (from: string, to: string) => {
 	const buffer = fs.readFileSync(from)
 	const parentPath = path.dirname(to)
 	mkdirGuard(parentPath)
@@ -59,7 +59,7 @@ const copyFile = (from, to) => {
  * @param {*} path
  * @return {*}
  */
-export const checkMkdirExists = (path) => {
+export const checkMkdirExists = (path: string) => {
 	return fs.existsSync(path)
 }
 
@@ -68,7 +68,7 @@ export const checkMkdirExists = (path) => {
  * @param {*} path 模板路径
  * @param {*} data 相关参数
  */
-export const readTemplate = (path, data) => {
+export const readTemplate = (path: string, data: string) => {
 	const content = fs.readFileSync(path, { encoding: 'utf8' })
 	return Mustache.render(content, data)
 }
@@ -79,7 +79,7 @@ export const readTemplate = (path, data) => {
  * @param {*} to
  * @param {*} data
  */
-export const copyTemplate = (from, to, data) => {
+export const copyTemplate = (from: string, to: string, data: string) => {
 	if (path.extname(from) !== '.tpl') {
 		return copyFile(from, to)
 	}

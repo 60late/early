@@ -11,4 +11,5 @@ node_modules
 types
 coverage
 examples
+playground
 pnpm-lock.yaml

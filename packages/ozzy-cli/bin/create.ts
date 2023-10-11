@@ -5,10 +5,10 @@ import ora, { Ora } from 'ora'
 import inquirer from 'inquirer'
 import { logger } from './util'
 import { execCommand } from './exec'
-import { createDir, copyDir, checkMkdirExists } from './copy'
+import { handleCustomMode } from './create-custom'
+import { createDir, copyDir, checkMkdirExists } from './file'
 import { NameToFunctionMap, ProjectConfig } from './types'
 import type { Options as BoxenOptions } from 'boxen'
-import { realpathSync } from 'fs'
 
 /**
  * @description: 预设模板模式
@@ -68,7 +68,7 @@ const handleFetchGitRepo = async (config: ProjectConfig, gitRepo: string, target
 /**
  * @description: 模板拉取完成后安装相关依赖
  */
-const handleInstall = async (config: ProjectConfig, targetDir: string, spinner: Ora) => {
+export const handleInstall = async (config: ProjectConfig, targetDir: string, spinner: Ora) => {
 	spinner.text = '安装依赖(这个过程可能需要几分钟，请耐心等待)'
 	const command = `yarn`
 	await execCommand(command, targetDir)
@@ -76,61 +76,9 @@ const handleInstall = async (config: ProjectConfig, targetDir: string, spinner: 
 }
 
 /**
- * @description: 自定义模板模式
- */
-const handleCustomMode = async (config: ProjectConfig) => {
-	const { frame, platform } = await inquirer.prompt([
-		{
-			type: 'list',
-			name: 'frame',
-			message: '使用什么框架',
-			choices: ['vue', 'react']
-		},
-		{
-			type: 'list',
-			name: 'platform',
-			message: '平台',
-			choices: ['PC', 'H5', '小程序']
-		}
-	])
-
-	const commonConfig = [
-		{
-			type: 'list',
-			name: 'ui',
-			message: '使用什么UI框架',
-			choices: handleUiConfig(frame, platform)
-		},
-		{
-			type: 'confirm',
-			name: 'typescript',
-			message: '是否使用typescript'
-		}
-	]
-
-	let answers = await inquirer.prompt(commonConfig)
-	answers = { frame, platform, ...answers }
-	console.log('ansers', answers)
-}
-
-/**
- * @description: set ui choices
- * @param {string} frame current frame. `vue` | `react`
- * @param {string} platform current platform. `PC` | `H5`
- */
-const handleUiConfig = (frame: string, platform: string) => {
-	/** vue */
-	if (frame === 'vue' && platform === 'PC') return ['Element Plus', 'Ant Design Vue']
-	if (frame === 'vue' && platform === 'H5') return ['Vant']
-	/** react */
-	if (frame === 'react' && platform === 'PC') return ['Ant Design']
-	if (frame === 'react' && platform === 'H5') return ['Ant Design Mobie']
-}
-
-/**
  * @description: Outputlog when create project successed
  */
-const handleSuccessLog = (config: ProjectConfig) => {
+export const handleSuccessLog = (config: ProjectConfig) => {
 	const boxenConfig: BoxenOptions = {
 		padding: 1,
 		margin: 1,
@@ -147,9 +95,9 @@ const handleSuccessLog = (config: ProjectConfig) => {
  * @description: 用户选择模式对应方法的map,策略模式
  */
 const MODE_MAP: NameToFunctionMap = {
-	预设模板模式: handlePresetMode,
-	git远程模板模式: handleGitMode,
-	自定义模式: handleCustomMode
+	preset: handlePresetMode,
+	git: handleGitMode,
+	custom: handleCustomMode
 }
 
 /**
@@ -175,9 +123,14 @@ export const createProject = async () => {
 			type: 'list',
 			name: 'mode',
 			message: '选择模式',
-			choices: ['预设模板模式', 'git远程模板模式', '自定义模式']
+			choices: [
+				{ name: '预设模板模式', value: 'preset' },
+				{ name: 'git远程模板模式', value: 'git' },
+				{ name: '自定义模式', value: 'custom' }
+			]
 		}
 	])
+	console.log(config)
 
 	// run diffrent mode
 	MODE_MAP[config.mode](config)

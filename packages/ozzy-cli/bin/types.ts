@@ -5,6 +5,18 @@ export interface ProjectConfig {
 	mode: string
 	/** Using which preset template */
 	template?: string
+	/** Project platform. `PC` or `H5` */
+	platform?: 'PC' | 'H5'
+	/** Project framework. `Vue` or `React` */
+	frame?: string
+	/** Project UI framework. */
+	ui?: string
+	/** Is use typescript? `True` for use */
+	isUseTs?: boolean
+	/** Is use eslint、stylelint、husky、commitizen? `True` for use */
+	isUseLint?: boolean
+	/** Node module manage tool? 'npm' or 'yarn' or 'pnpm' */
+	moduleTool?: 'npm' | 'yarn' | 'pnpm'
 }
 
 export interface NameToFunctionMap {
