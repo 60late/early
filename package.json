@@ -10,7 +10,8 @@
 		"lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
 		"lint:fix": "pnpm run lint --fix",
 		"format": "prettier --write \"./**/*.{html,vue,ts,js,json}\"",
-		"prepare": "husky install"
+		"prepare": "husky install",
+		"release": "changeset publish --registry=https://registry.npmjs.com/"
 	},
 	"keywords": [],
 	"author": "60late",
@@ -19,6 +20,7 @@
 		"ozzy-cli": "workspace:*"
 	},
 	"devDependencies": {
+		"@changesets/cli": "^2.26.2",
 		"@types/node": "^20.6.3",
 		"@typescript-eslint/eslint-plugin": "^6.3.0",
 		"@typescript-eslint/parser": "^6.3.0",
