@@ -11,8 +11,8 @@
 		"lint:fix": "pnpm run lint --fix",
 		"format": "prettier --write \"./**/*.{html,vue,ts,js,json}\"",
 		"prepare": "husky install",
-		"changeset": "changeset",
-		"packages-version": "changeset version",
+		"changeset": "changeset add",
+		"changeset-version": "changeset version",
 		"release": "changeset publish --registry=https://registry.npmjs.com/"
 	},
 	"keywords": [],
