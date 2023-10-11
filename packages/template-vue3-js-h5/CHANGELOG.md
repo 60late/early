@@ -1,5 +1,11 @@
 # template-vue3-js-h5
 
+## 1.1.1
+
+### Patch Changes
+
+- changeset init
+
 ## 1.1.0
 
 ### Minor Changes

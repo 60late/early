@@ -1,6 +1,6 @@
 {
-	"name": "template-vue3-ts-simple",
-	"version": "1.1.0",
+	"name": "@ozzy-cli/template-vue3-ts-simple",
+	"version": "1.1.1",
 	"private": true,
 	"scripts": {
 		"dev": "vite",

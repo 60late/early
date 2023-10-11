@@ -1,13 +1,13 @@
 {
-	"name": "ozzy-cli",
-	"version": "1.1.0",
+	"name": "@ozzy-cli/cli",
+	"version": "1.1.1",
 	"description": "",
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",
 	"types": "dist/index.d.ts",
 	"keywords": [],
 	"author": "",
-	"license": "ISC",
+	"license": "MIT",
 	"scripts": {
 		"dev": "pnpm build --watch",
 		"build": "tsup bin/index.ts --dts --format cjs,esm"
