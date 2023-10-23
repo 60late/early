@@ -16,7 +16,7 @@ export interface ProjectConfig {
 	/** Is use eslint、stylelint、husky、commitizen? `True` for use */
 	isUseLint?: boolean
 	/** Node module manage tool? 'npm' or 'yarn' or 'pnpm' */
-	moduleTool?: 'npm' | 'yarn' | 'pnpm'
+	pckManager?: 'npm' | 'yarn' | 'pnpm'
 }
 
 export interface NameToFunctionMap {

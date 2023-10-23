@@ -1,6 +1,6 @@
 {
-	"name": "ozzy-cli",
-	"version": "1.1.3",
+	"name": "early-cli",
+	"version": "0.0.0",
 	"description": "",
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",
@@ -13,7 +13,7 @@
 		"build": "tsup bin/index.ts --dts --format cjs,esm"
 	},
 	"bin": {
-		"ozzy": "./dist/index.js"
+		"early": "./dist/index.js"
 	},
 	"exports": {
 		".": {

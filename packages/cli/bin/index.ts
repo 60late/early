@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-console.log('欢迎使用ozzy-cli来构建现代前端工程项目1！')
+console.log('欢迎使用early-cli来构建现代前端工程项目!!!!！')
 import { createProject } from './create'
 
 import yargs from 'yargs'

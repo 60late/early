@@ -1,5 +1,11 @@
 # template-vue3-ts-simple
 
+## 1.2.0
+
+### Minor Changes
+
+- include files
+
 ## 1.1.3
 
 ### Patch Changes

@@ -1,5 +1,5 @@
 {
-	"name": "@ozzy/ozzy-monorepo",
+	"name": "early",
 	"private": true,
 	"version": "0.0.0",
 	"description": "",
@@ -7,20 +7,20 @@
 	"scripts": {
 		"dev": "tsup --watch",
 		"build": "tsup",
-		"o": "pnpm ozzy create",
+		"e": "pnpm early create",
 		"lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
 		"lint:fix": "pnpm run lint --fix",
 		"format": "prettier --write \"./**/*.{html,vue,ts,js,json}\"",
 		"prepare": "husky install",
-		"cs": "changeset",
-		"csv": "changeset version",
+		"c": "changeset",
+		"cv": "changeset version",
 		"release": "changeset publish --registry=https://registry.npmjs.com/"
 	},
 	"keywords": [],
 	"author": "60late",
 	"license": "MIT",
 	"dependencies": {
-		"ozzy-cli": "workspace:*"
+		"early-cli": "workspace:*"
 	},
 	"devDependencies": {
 		"@changesets/cli": "^2.26.2",

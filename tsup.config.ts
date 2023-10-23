@@ -2,9 +2,9 @@ import { defineConfig } from 'tsup'
 
 export default defineConfig([
 	{
-		entry: ['packages/ozzy-cli/bin/index.ts'],
+		entry: ['packages/cli/bin/index.ts'],
 		format: ['cjs', 'esm', 'iife'],
-		outDir: 'packages/ozzy-cli/dist',
+		outDir: 'packages/cli/dist',
 		dts: true, // 添加 .d.ts 文件
 		metafile: false, // 添加 meta 文件
 		minify: false, // 压缩

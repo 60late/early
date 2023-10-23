@@ -20,15 +20,15 @@ const handlePresetMode = async (config: ProjectConfig) => {
 			type: 'list',
 			name: 'template',
 			message: '选择模板',
-			choices: ['test', 'vue3-js-h5']
+			choices: ['vue3-js-simple', 'vue3-js-h5']
 		}
 	])
 
 	const spinner = ora().start('拷贝模板')
 	const templateProject = `template-${template}`
 	const templateDir = path.resolve(__dirname, `../../${templateProject}`)
-	const targetDir = path.resolve(process.cwd(), `${projectName}`)
-	await copyDir(templateDir, targetDir, {})
+	const targetDir = path.resolve(process.cwd(), 'playground', `${projectName}`)
+	await copyDir(templateDir, targetDir)
 	logger('✅')
 	await handleInstall(config, targetDir, spinner)
 	handleSuccessLog(config)
@@ -70,7 +70,8 @@ const handleFetchGitRepo = async (config: ProjectConfig, gitRepo: string, target
  */
 export const handleInstall = async (config: ProjectConfig, targetDir: string, spinner: Ora) => {
 	spinner.text = '安装依赖(这个过程可能需要几分钟，请耐心等待)'
-	const command = `yarn`
+	const { pckManager } = config
+	const command = `${pckManager} install`
 	await execCommand(command, targetDir)
 	spinner.stop()
 }
@@ -109,15 +110,26 @@ export const createProject = async () => {
 			type: 'input',
 			name: 'name',
 			message: '项目名称',
-			validate: (value: string) => {
-				if (!value) return '项目名称是必选项!'
-				const targetDir = path.resolve(process.cwd(), `${value}`)
+			validate: async (value: string) => {
+				if (!value) return '项目名称是必选项11!'
+				const targetDir = path.resolve(process.cwd(), 'playground', `${value}`)
 				const isDirExists = checkMkdirExists(targetDir)
+				console.log('是否存在', isDirExists)
 				if (isDirExists) {
-					return '项目文件夹已存在，请删除后再操作!'
+					const isOverRide = await inquirer.prompt({
+						type: 'confirm',
+						message: '项目文件夹已存在，是否覆盖？'
+					})
+					return isOverRide ? true : '请重新输入项目名'
 				}
 				return true
 			}
+		},
+		{
+			type: 'list',
+			name: 'pkgManager',
+			message: '选择包管理工具',
+			choices: ['npm', 'yarn', 'pnpm']
 		},
 		{
 			type: 'list',
@@ -125,7 +137,7 @@ export const createProject = async () => {
 			message: '选择模式',
 			choices: [
 				{ name: '预设模板模式', value: 'preset' },
-				{ name: 'git远程模板模式', value: 'git' },
+				{ name: 'git远程仓库模板模式', value: 'git' },
 				{ name: '自定义模式', value: 'custom' }
 			]
 		}

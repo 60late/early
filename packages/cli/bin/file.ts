@@ -21,9 +21,7 @@ const mkdirGuard = (target: string) => {
  * @param {*} dir 目录路径
  */
 export const createDir = (dir: string) => {
-	if (fs.existsSync(dir)) {
-		return true
-	} else {
+	if (!fs.existsSync(dir)) {
 		const dirname = path.dirname(dir)
 		createDir(dirname)
 		fs.mkdirSync(dir)
@@ -36,9 +34,9 @@ export const createDir = (dir: string) => {
  * @param {*} to
  * @param {*} options
  */
-export const copyDir = async (from: string, to: string, options) => {
+export const copyDir = async (from: string, to: string) => {
 	mkdirGuard(to)
-	await copydir.sync(from, to, options)
+	await copydir.sync(from, to)
 }
 
 /**
