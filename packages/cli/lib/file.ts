@@ -58,6 +58,7 @@ const copyFile = (from: string, to: string) => {
  * @return {*}
  */
 export const checkMkdirExists = (path: string) => {
+	console.log(path, 'path')
 	return fs.existsSync(path)
 }
 

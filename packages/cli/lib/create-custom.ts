@@ -1,12 +1,12 @@
 import path from 'path'
-import inquirer from 'inquirer'
-import ora, { Ora } from 'ora'
+import { select, checkbox } from '@inquirer/prompts'
+import ora from 'ora'
 import { writeFileSync, readFileSync } from 'fs'
 import { logger } from './util'
 import { copyDir } from './file'
 import { execCommand } from './exec'
 import { ProjectConfig } from './types'
-import { VUE_PC_UI, VUE_H5_UI, REACT_PC_UI, REACT_H5_UI } from './consts'
+import { VUE_PC_UI, VUE_H5_UI, REACT_PC_UI, REACT_H5_UI, DEFAULT_UI } from './consts'
 import { handleSuccessLog } from './create'
 
 const spinner = ora()
@@ -23,6 +23,7 @@ const handleUiConfig = (frame: string, platform: string) => {
 	/** react */
 	if (frame === 'react' && platform === 'PC') return REACT_PC_UI
 	if (frame === 'react' && platform === 'H5') return REACT_H5_UI
+	return DEFAULT_UI
 }
 
 /**
@@ -69,9 +70,9 @@ const updateConfig = async (config: ProjectConfig) => {
  */
 const handleInstall = async (config: ProjectConfig) => {
 	spinner.text = '安装依赖(这个过程可能需要几分钟，请耐心等待)'
-	const { pckManager, name: projectName } = config
+	const { pkgManager, name: projectName } = config
 	const targetDir = path.resolve(process.cwd(), 'playground', `${projectName}`)
-	const installCommand = `${pckManager} install`
+	const installCommand = `${pkgManager} install`
 	await execCommand(installCommand, targetDir)
 }
 
@@ -97,51 +98,46 @@ const handleCreateApp = async (config: ProjectConfig) => {
  * lint：husky+lint-staged+prettier+stylelint+commitlint+cz-commitlint
  */
 export const handleCustomMode = async (config: ProjectConfig) => {
-	const { frame, platform } = await inquirer.prompt([
-		{
-			type: 'list',
-			name: 'frame',
-			message: '使用什么开发框架',
-			choices: ['vue', 'react']
-		},
-		{
-			type: 'list',
-			name: 'platform',
-			message: '平台',
-			choices: ['PC', 'H5']
-		}
-	])
+	const frame = await select({
+		message: '使用什么开发框架',
+		choices: [
+			{ name: 'vue', value: 'vue' },
+			{ name: 'react', value: 'react' }
+		]
+	})
 
-	const commonConfig = [
-		{
-			type: 'list',
-			name: 'ui',
-			message: '使用什么UI框架',
-			choices: handleUiConfig(frame, platform)
-		},
-		{
-			type: 'checkbox',
-			name: 'feat',
-			message: '希望有哪些附加功能',
-			choices: [
-				{
-					name: 'Typescript',
-					value: 'typescript'
-				},
-				{
-					name: '代码格式化(Eslint + Stylelint + Husky + Lint-staged)',
-					value: 'lint'
-				},
-				{
-					name: 'git提交信息校验(Commitlint + Commitizen + cz-git )',
-					value: 'git'
-				}
-			]
-		}
-	]
+	const platform: 'PC' | 'H5' = await select({
+		message: '平台',
+		choices: [
+			{ name: 'PC', value: 'PC' },
+			{ name: 'H5', value: 'H5' }
+		]
+	})
 
-	let answers = await inquirer.prompt(commonConfig)
-	answers = { frame, platform, ...answers, ...config }
-	console.log('answers', answers)
-	handleCreateApp(answers)
+	const ui = await select({
+		message: '使用什么UI框架',
+		choices: handleUiConfig(frame, platform)
+	})
+
+	const feat = await checkbox({
+		message: '希望有哪些附加功能',
+		choices: [
+			{
+				name: 'Typescript',
+				value: 'typescript'
+			},
+			{
+				name: '代码格式化(Eslint + Stylelint + Husky + Lint-staged)',
+				value: 'lint'
+			},
+			{
+				name: 'git提交信息校验(Commitlint + Commitizen + cz-git )',
+				value: 'git'
+			}
+		]
+	})
+
+	config = { frame, platform, ui, feat, ...config }
+	console.log('config', config)
+	handleCreateApp(config)
 }

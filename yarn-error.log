@@ -1,0 +1,85 @@
+Arguments: 
+  /Users/huangyujian/.nvm/versions/node/v18.17.0/bin/node /opt/homebrew/Cellar/yarn/1.22.11/libexec/bin/yarn.js
+
+PATH: 
+  ./node_modules/.bin:/Users/huangyujian/Desktop/early/node_modules/.bin:/Users/huangyujian/Desktop/early/node_modules/.bin:/Users/huangyujian/.nvm/versions/node/v18.17.0/lib/node_modules/pnpm/dist/node-gyp-bin:/Users/huangyujian/Desktop/early/node_modules/.bin:/opt/homebrew/opt/icu4c/sbin:/opt/homebrew/opt/icu4c/bin:/opt/homebrew/opt/icu4c/bin:/Users/huangyujian/.nvm/versions/node/v18.17.0/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Applications/VMware Fusion.app/Contents/Public:/Users/huangyujian/Library/pnpm:/opt/homebrew/opt/icu4c/sbin:/opt/homebrew/opt/icu4c/bin:/Users/huangyujian/.nvm/versions/node/v18.17.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/locol/mysql/bin:/usr/local/mysql/support-files export PATH=/opt/homebrew/opt/icu4c/sbin:/usr/local/mysql/support-files source ~/.bash_profile export NVM_DIR=/Users/huangyujian/.nvm [ -s /usr/local/opt/nvm/nvm.sh ] && . /usr/local/opt/nvm/nvm.sh # This loads nvm [ -s /usr/local/opt/nvm/etc/bash_completion.d/nvm ] && . /usr/local/opt/nvm/etc/bash_completion.d/nvm # This loads nvm bash_completion :/usr/locol/mysql/bin:/usr/local/mysql/support-files
+  export PATH=/opt/homebrew/opt/icu4c/sbin:/Users/huangyujian/.nvm/versions/node/v18.17.0/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Applications/VMware Fusion.app/Contents/Public:/Users/huangyujian/Library/pnpm:/opt/homebrew/opt/icu4c/sbin:/opt/homebrew/opt/icu4c/bin:/Users/huangyujian/.nvm/versions/node/v18.17.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/locol/mysql/bin:/usr/local/mysql/support-files export PATH=/opt/homebrew/opt/icu4c/sbin:/usr/local/mysql/support-files source ~/.bash_profile export NVM_DIR=/Users/huangyujian/.nvm [ -s /usr/local/opt/nvm/nvm.sh ] && . /usr/local/opt/nvm/nvm.sh # This loads nvm [ -s /usr/local/opt/nvm/etc/bash_completion.d/nvm ] && . /usr/local/opt/nvm/etc/bash_completion.d/nvm # This loads nvm bash_completion :/usr/locol/mysql/bin:/usr/local/mysql/support-files
+  
+  source ~/.bash_profile
+      export NVM_DIR=/Users/huangyujian/.nvm
+      [ -s /usr/local/opt/nvm/nvm.sh ] && . /usr/local/opt/nvm/nvm.sh  # This loads nvm
+      [ -s /usr/local/opt/nvm/etc/bash_completion.d/nvm ] && . /usr/local/opt/nvm/etc/bash_completion.d/nvm  # This loads nvm bash_completion
+
+Yarn version: 
+  1.22.11
+
+Node version: 
+  18.17.0
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  Error: https://registry.npmjs.org/early-cli: Not found
+      at params.callback [as _callback] (/opt/homebrew/Cellar/yarn/1.22.11/libexec/lib/cli.js:66992:18)
+      at self.callback (/opt/homebrew/Cellar/yarn/1.22.11/libexec/lib/cli.js:140763:22)
+      at Request.emit (node:events:514:28)
+      at Request.<anonymous> (/opt/homebrew/Cellar/yarn/1.22.11/libexec/lib/cli.js:141735:10)
+      at Request.emit (node:events:514:28)
+      at IncomingMessage.<anonymous> (/opt/homebrew/Cellar/yarn/1.22.11/libexec/lib/cli.js:141657:12)
+      at Object.onceWrapper (node:events:628:28)
+      at IncomingMessage.emit (node:events:526:35)
+      at endReadableNT (node:internal/streams/readable:1359:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+
+npm manifest: 
+  {
+  	"name": "early",
+  	"private": false,
+  	"version": "0.0.0",
+  	"description": "",
+  	"main": "index.js",
+  	"scripts": {
+  		"dev": "tsup --watch",
+  		"build": "tsup",
+  		"e": "pnpm early create",
+  		"lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
+  		"lint:fix": "pnpm run lint --fix",
+  		"format": "prettier --write \"./**/*.{html,vue,ts,js,json}\"",
+  		"prepare": "husky install",
+  		"c": "changeset",
+  		"cv": "changeset version",
+  		"release": "changeset publish --registry=https://registry.npmjs.com/"
+  	},
+  	"keywords": [],
+  	"author": "60late",
+  	"license": "MIT",
+  	"dependencies": {
+  		"early-cli": "workspace:*"
+  	},
+  	"devDependencies": {
+  		"@changesets/cli": "^2.26.2",
+  		"@types/node": "^20.6.3",
+  		"@typescript-eslint/eslint-plugin": "^6.3.0",
+  		"@typescript-eslint/parser": "^6.3.0",
+  		"eslint": "^8.50.0",
+  		"eslint-config-prettier": "^9.0.0",
+  		"eslint-plugin-prettier": "^5.0.0",
+  		"husky": "^8.0.3",
+  		"lint-staged": "^14.0.1",
+  		"prettier": "^3.0.3",
+  		"tsup": "^7.2.0"
+  	},
+  	"lint-staged": {
+  		"*.{vue,js,ts,jsx,tsx}": [
+  			"pnpm run lint",
+  			"pnpm run format"
+  		]
+  	}
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

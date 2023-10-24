@@ -1,6 +1,6 @@
-export interface ProjectConfig {
+export type ProjectConfig = {
 	/** Project Name */
-	name: string
+	name?: string
 	/** Create Mode. 1. Using preset template 2.Using remote git repo 3. Using custom config  */
 	mode: string
 	/** Using which preset template */
@@ -16,9 +16,15 @@ export interface ProjectConfig {
 	/** Is use eslint、stylelint、husky、commitizen? `True` for use */
 	isUseLint?: boolean
 	/** Node module manage tool? 'npm' or 'yarn' or 'pnpm' */
-	pckManager?: 'npm' | 'yarn' | 'pnpm'
+	pkgManager?: string
+	/** Other choosen feat list */
+	feat?: string[]
+	/** Target dir path  */
+	targetDir?: string
+	/** Remote git repo address. Need to include `.git`  */
+	gitRepo?: string
 }
 
-export interface NameToFunctionMap {
+export type NameToFunctionMap = {
 	[propName: string]: (config: any) => Promise<void>
 }

@@ -30,3 +30,8 @@ export const REACT_H5_UI = [
 	{ name: 'Ant Design Mobie', value: 'ant-design' },
 	{ name: 'not use ', value: '' }
 ]
+
+/**
+ * @description: Choices for no ui
+ */
+export const DEFAULT_UI = [{ name: '不使用UI框架', value: 'no' }]
