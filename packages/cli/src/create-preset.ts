@@ -5,7 +5,7 @@ import { copyDir, getDirNames } from './file'
 import { ProjectConfig } from './types'
 import { handleInstall } from './create'
 import { select } from '@inquirer/prompts'
-import { handleSuccessLog } from './create'
+import { handleSuccessLog, handleInitGit } from './create'
 import type { SelectChoice } from './types'
 
 /**
@@ -39,7 +39,7 @@ export const handlePresetMode = async (config: ProjectConfig) => {
 	const { targetDir } = config
 	const templateDir = path.resolve(__dirname, `../template/${template}`)
 	await copyDir(templateDir, <string>targetDir)
-	logger('✅')
+	spinner.text = '拷贝模板 ✅'
 	spinner.text = `安装依赖（需要几分钟时间，请勿退出）`
 	await handleInstall(config)
 	spinner.stop()

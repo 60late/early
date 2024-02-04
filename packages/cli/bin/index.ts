@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 console.log('欢迎使用early-cli来构建现代前端工程项目')
-import { createProject } from '../lib/create'
+import { createProject } from '../src/create'
 
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'

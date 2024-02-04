@@ -12,10 +12,21 @@ import { NameToFunctionMap, ProjectConfig } from './types'
 import type { Options as BoxenOptions } from 'boxen'
 
 /**
+ * In order to init husky,need to init git first
+ * @param {ProjectConfig} config
+ */
+export const handleInitGit = async (config: ProjectConfig) => {
+	const { targetDir } = config
+	const command = `git init`
+	await execCommand(command, <string>targetDir)
+}
+
+/**
  * Install project packages, using user choosed package manager
  */
 export const handleInstall = async (config: ProjectConfig) => {
 	const { pkgManager, targetDir } = config
+	await handleInitGit(config)
 	let command = `${pkgManager} install`
 	if (pkgManager === 'yarn') command = `${pkgManager}`
 	await execCommand(command, <string>targetDir)
@@ -66,7 +77,7 @@ export const createProject = async () => {
 			return true
 		}
 	})
-	const targetDir = (await path.resolve(process.cwd(), 'playground', name)) || '.'
+	const targetDir = (await path.resolve(process.cwd(), name)) || '.'
 	const isDirExsist = checkMkdirExists(targetDir)
 	let override: boolean = false
 	if (isDirExsist) {
