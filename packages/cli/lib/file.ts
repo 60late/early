@@ -29,6 +29,14 @@ export const createDir = (dir: string) => {
 }
 
 /**
+ * Delete exist target
+ * @param {string} targetDir
+ */
+export const removeDir = async (targetDir: string) => {
+	fs.removeSync(targetDir)
+}
+
+/**
  * @description: 目录拷贝，如果目录不存在会先创建目录
  * @param {*} from
  * @param {*} to
@@ -37,6 +45,29 @@ export const createDir = (dir: string) => {
 export const copyDir = async (from: string, to: string) => {
 	mkdirGuard(to)
 	await copydir.sync(from, to)
+}
+
+/**
+ * @description: 获取目录下所有文件夹的名称
+ * @param {string} path 目录地址
+ * @return {string[]}
+ */
+export const getDirNames = async (path: string) => {
+	try {
+		const files = fs.readdirSync(path)
+		const dirArrys: string[] = []
+		files.map((file: string) => {
+			const filePath = `${path}/${file}`
+			const isDirectory = fs.statSync(filePath).isDirectory() // 判断是否为文件夹
+			if (isDirectory) {
+				dirArrys.push(file) // 将文件夹名称添加到数组中
+			}
+		})
+		return dirArrys
+	} catch (error) {
+		console.error('Failed to read directory')
+		return []
+	}
 }
 
 /**

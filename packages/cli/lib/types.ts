@@ -23,8 +23,15 @@ export type ProjectConfig = {
 	targetDir?: string
 	/** Remote git repo address. Need to include `.git`  */
 	gitRepo?: string
+	/** Need to override exist project? `True` for override  */
+	override: boolean
 }
 
 export type NameToFunctionMap = {
 	[propName: string]: (config: any) => Promise<void>
+}
+
+export type SelectChoice = {
+	name: string
+	value: string | number
 }
