@@ -1,0 +1,78 @@
+{
+  "name": "vue3-js-h5",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:test": "vite build --mode test",
+    "build:prod": "vite build --mode production",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
+    "format": "stylelint \"./**/*.{css,less,vue,html}\" --fix",
+    "prepare": "husky install",
+    "lint-staged": "lint-staged",
+    "commit": "git-cz"
+  },
+  "dependencies": {
+    "@vueuse/core": "^10.5.0",
+    "amfe-flexible": "^2.2.1",
+    "axios": "^1.6.0",
+    "nprogress": "^0.2.0",
+    "pinia": "^2.1.7",
+    "vant": "^4.7.3",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^18.2.0",
+    "@commitlint/config-conventional": "^18.1.0",
+    "@vitejs/plugin-vue": "^4.4.0",
+    "autoprefixer": "^10.4.16",
+    "commitizen": "^4.3.0",
+    "cz-git": "^1.7.1",
+    "eslint": "^8.53.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-vue": "^9.18.1",
+    "husky": "^8.0.3",
+    "less": "^4.2.0",
+    "lint-staged": "^15.0.2",
+    "postcss": "^8.4.31",
+    "postcss-html": "^1.5.0",
+    "postcss-less": "^6.0.0",
+    "postcss-pxtorem": "^6.0.0",
+    "prettier": "^3.0.3",
+    "stylelint": "^15.11.0",
+    "stylelint-config-recommended-less": "^2.0.0",
+    "stylelint-config-recommended-vue": "^1.5.0",
+    "stylelint-config-standard": "^34.0.0",
+    "stylelint-order": "^6.0.3",
+    "tailwindcss": "^3.3.5",
+    "vite": "^4.4.11"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{cjs,json,html,md}": [
+      "prettier --write"
+    ],
+    "*.vue": [
+      "eslint --fix",
+      "prettier --write",
+      "stylelint --fix"
+    ],
+    "*.{scss,css}": [
+      "stylelint --fix",
+      "prettier --write"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    }
+  }
+}

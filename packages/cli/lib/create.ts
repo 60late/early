@@ -69,7 +69,6 @@ export const createProject = async () => {
 	const targetDir = (await path.resolve(process.cwd(), 'playground', name)) || '.'
 	const isDirExsist = checkMkdirExists(targetDir)
 	let override: boolean = false
-	debugger
 	if (isDirExsist) {
 		override = await confirm({
 			message: '目录重复，是否覆盖?',
