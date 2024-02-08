@@ -90,7 +90,6 @@ const handleCreateApp = async (config: ProjectConfig) => {
 
 /**
  * @description: custome create mode
- * TODO: more detail config
  * JS/TS
  * vite
  * vue+pinia+axios+vue-router

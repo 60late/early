@@ -1,4 +1,4 @@
-import ora, { Ora } from 'ora'
+import ora from 'ora'
 import { execCommand } from './exec'
 import { ProjectConfig } from './types'
 import { input } from '@inquirer/prompts'
@@ -17,17 +17,16 @@ export const handleGitMode = async (config: ProjectConfig) => {
 		}
 	})
 	config = { gitRepo, ...config }
-	const spinner = ora().start('拉取远程模板')
-	await handleFetchGitRepo(config, spinner)
-	await handleInstall(config, spinner)
+	ora().start('拉取远程模板')
+	await handleFetchGitRepo(config)
+	await handleInstall(config)
 	handleSuccessLog(config)
-	// handleOpenProject(config)
 }
 
 /**
  * @description: 拉取远程git模板
  */
-const handleFetchGitRepo = async (config: ProjectConfig, spinner: Ora) => {
+const handleFetchGitRepo = async (config: ProjectConfig) => {
 	const { targetDir, gitRepo, name } = config
 	createDir(<string>targetDir)
 	const command = `git clone ${gitRepo} ../${name}`

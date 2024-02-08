@@ -77,9 +77,11 @@ export const createProject = async () => {
 			return true
 		}
 	})
+
 	const targetDir = (await path.resolve(process.cwd(), name)) || '.'
 	const isDirExsist = checkMkdirExists(targetDir)
 	let override: boolean = false
+
 	if (isDirExsist) {
 		override = await confirm({
 			message: '目录重复，是否覆盖?',
@@ -89,7 +91,6 @@ export const createProject = async () => {
 			throw new Error(`${chalk.red('✖')} 用户取消操作`)
 		}
 	}
-
 	const pkgManager = await select({
 		message: '选择包管理工具',
 		choices: [

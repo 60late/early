@@ -1,11 +1,10 @@
 import ora from 'ora'
 import path from 'path'
-import { logger } from './util'
 import { copyDir, getDirNames } from './file'
 import { ProjectConfig } from './types'
 import { handleInstall } from './create'
 import { select } from '@inquirer/prompts'
-import { handleSuccessLog, handleInitGit } from './create'
+import { handleSuccessLog } from './create'
 import type { SelectChoice } from './types'
 
 /**

@@ -15,6 +15,7 @@ const mkdirGuard = (target: string) => {
 		createDir(target)
 	}
 }
+
 /**
  * @description: 创建目录
  * @param {*} dir 目录路径
