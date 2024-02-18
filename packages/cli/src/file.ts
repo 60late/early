@@ -4,8 +4,8 @@ import path from 'path'
 import Mustache from 'mustache'
 
 /**
- * @description: 目标目录不存在时自动创建目录
- * @param {*} target 目录路径
+ * make directory if not exists
+ * @param {*} target target path
  * @return {*}
  */
 const mkdirGuard = (target: string) => {
@@ -17,8 +17,8 @@ const mkdirGuard = (target: string) => {
 }
 
 /**
- * @description: 创建目录
- * @param {*} dir 目录路径
+ * create directory
+ * @param {*} dir directory path
  */
 export const createDir = (dir: string) => {
 	if (!fs.existsSync(dir)) {
@@ -37,7 +37,7 @@ export const removeDir = async (targetDir: string) => {
 }
 
 /**
- * @description: 目录拷贝，如果目录不存在会先创建目录
+ * copy directory,if not exists will create directory
  * @param {*} from
  * @param {*} to
  * @param {*} options
@@ -48,8 +48,8 @@ export const copyDir = async (from: string, to: string) => {
 }
 
 /**
- * @description: 获取目录下所有文件夹的名称
- * @param {string} path 目录地址
+ * get all directory names
+ * @param {string} path directory path
  * @return {string[]}
  */
 export const getDirNames = async (path: string) => {
@@ -71,7 +71,7 @@ export const getDirNames = async (path: string) => {
 }
 
 /**
- * @description: 拷贝文件
+ * copy files
  * @param {*} from
  * @param {*} to
  * @return {*}
@@ -84,7 +84,7 @@ const copyFile = (from: string, to: string) => {
 }
 
 /**
- * @description: 检查目标目录是否存在
+ * check if directory exists
  * @param {*} path
  * @return {*}
  */
@@ -94,7 +94,7 @@ export const checkMkdirExists = (path: string) => {
 }
 
 /**
- * @description: 渲染相关模板
+ * render template
  * @param {*} path 模板路径
  * @param {*} data 相关参数
  */
@@ -104,7 +104,7 @@ export const readTemplate = (path: string, data: string) => {
 }
 
 /**
- * @description: 拷贝模板
+ * copy template
  * @param {*} from
  * @param {*} to
  * @param {*} data

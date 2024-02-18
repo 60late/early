@@ -94,17 +94,17 @@ export const createProject = async () => {
 	const pkgManager = await select({
 		message: '选择包管理工具',
 		choices: [
-			{ name: 'npm', value: 'npm' },
+			{ name: 'pnpm', value: 'pnpm' },
 			{ name: 'yarn', value: 'yarn' },
-			{ name: 'pnpm', value: 'pnpm' }
+			{ name: 'npm', value: 'npm' }
 		]
 	})
 	const mode = await select({
 		message: '选择模式',
 		choices: [
-			{ name: '预设模板模式', value: 'preset' },
-			{ name: 'git远程仓库模板模式', value: 'git' },
-			{ name: '自定义模式', value: 'custom' }
+			{ name: '选择预设模板', value: 'preset' },
+			{ name: '输入git仓库地址', value: 'git' }
+			// { name: '自定义模式', value: 'custom' }
 		]
 	})
 

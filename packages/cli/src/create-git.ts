@@ -24,7 +24,7 @@ export const handleGitMode = async (config: ProjectConfig) => {
 }
 
 /**
- * @description: 拉取远程git模板
+ * @description: fetch remote git repo
  */
 const handleFetchGitRepo = async (config: ProjectConfig) => {
 	const { targetDir, gitRepo, name } = config

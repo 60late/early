@@ -8,7 +8,7 @@ import { handleSuccessLog } from './create'
 import type { SelectChoice } from './types'
 
 /**
- * @description: 获取目录下所有template文件夹的名字
+ * get all directory names in `template` directory
  * @param {ProjectConfig} config
  * @return {*} templateChoices
  */
@@ -26,7 +26,7 @@ const getTemplateChoices = async (config: ProjectConfig) => {
 }
 
 /**
- * @description: Preset template mode
+ * Preset template mode
  */
 export const handlePresetMode = async (config: ProjectConfig) => {
 	const templateChoices = await getTemplateChoices(config)
