@@ -1,7 +1,12 @@
 import { readFileSync, writeFileSync } from 'fs'
 import path from 'path'
+import { addNewFiles, addDependencies } from './index'
 
-const template = [
+/* tailwind devDependencies **/
+const devDep = ['tailwindcss', 'postcss', 'autoprefixer']
+
+/* tailwind new files **/
+const newFiles = [
 	{
 		filePath: 'tailwind.config.js',
 		content: `
@@ -38,14 +43,26 @@ module.exports = {
 	}
 ]
 
-export const addTailwind = () => {
-	console.log('执行 add tailwind')
-	const rootPath = path.resolve(process.cwd())
-	template.forEach((item) => {
-		const filePath = path.resolve(rootPath, 'early-project', item.filePath)
-		writeFileSync(filePath, item.content)
-	})
+/**
+ * update tailwind relate files
+ * @return {*}
+ */
+const updateTailwindFiles = () => {
+	const rootPath = path.resolve(process.cwd(), '../')
 	let mainJsString = readFileSync(path.resolve(rootPath, 'early-project', 'src', 'main.js'), 'utf-8')
-	mainJsString = `import './tailwind.css'\n${mainJsString}`
-	writeFileSync(path.resolve(rootPath, 'early-project', 'src', 'main.js'), mainJsString)
+	if (!mainJsString.includes(`import '../tailwind.css'`)) {
+		mainJsString = `import '../tailwind.css'\n${mainJsString}`
+		writeFileSync(path.resolve(rootPath, 'early-project', 'src', 'main.js'), mainJsString)
+	}
+}
+
+/**
+ * add tailwind
+ * @return {*}
+ */
+export const addTailwind = async () => {
+	console.log('excuting tailwind init process..')
+	await addDependencies({ devDep })
+	addNewFiles(newFiles)
+	updateTailwindFiles()
 }

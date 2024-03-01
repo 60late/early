@@ -78,7 +78,7 @@ export const createProject = async () => {
 		}
 	})
 
-	const targetDir = (await path.resolve(process.cwd(), name)) || '.'
+	const targetDir = (await path.resolve(process.cwd(), '../', name)) || '.'
 	const isDirExsist = checkMkdirExists(targetDir)
 	let override: boolean = false
 
