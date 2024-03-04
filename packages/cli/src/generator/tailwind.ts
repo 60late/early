@@ -23,7 +23,7 @@ export default {
     `
 	},
 	{
-		filePath: 'postcss.config.js',
+		filePath: 'postcss.config.cjs',
 		content: `
 module.exports = {
   plugins: {
@@ -48,6 +48,7 @@ module.exports = {
  * @return {*}
  */
 const updateTailwindFiles = () => {
+	// TODO: 修改这里的位置和early-project路径
 	const rootPath = path.resolve(process.cwd(), '../')
 	let mainJsString = readFileSync(path.resolve(rootPath, 'early-project', 'src', 'main.js'), 'utf-8')
 	if (!mainJsString.includes(`import '../tailwind.css'`)) {

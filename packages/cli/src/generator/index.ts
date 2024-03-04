@@ -3,7 +3,7 @@ import { addTailwind } from './tailwind'
 import { addCommitLint } from './commitlint'
 import { addPrettier } from './prettier'
 import path from 'path'
-import { existsSync, writeFileSync } from 'fs'
+import fs from 'fs-extra'
 import { execCommand } from '../exec'
 import { logger } from '../util'
 
@@ -23,6 +23,8 @@ const FUNC_MAP = {
 	prettier: addPrettier,
 	commitlint: addCommitLint
 }
+
+const rootPath = path.resolve(process.cwd(), '../', 'early-project')
 
 export const createGenerator = async () => {
 	console.log('执行微生成器')
@@ -45,8 +47,6 @@ export const createGenerator = async () => {
 	})
 }
 
-const rootPath = path.resolve(process.cwd(), '../', 'early-project')
-
 /**
  * add new files
  * @param {FileArray} files
@@ -55,7 +55,8 @@ const rootPath = path.resolve(process.cwd(), '../', 'early-project')
 export const addNewFiles = (files: FileArray[]) => {
 	files.forEach((item) => {
 		const filePath = path.resolve(rootPath, item.filePath)
-		writeFileSync(filePath, item.content)
+		fs.ensureDirSync(path.dirname(filePath))
+		fs.writeFileSync(filePath, item.content)
 	})
 }
 
@@ -63,12 +64,12 @@ export const addNewFiles = (files: FileArray[]) => {
  * find current package manager
  * @return {*} package manager type
  */
-const findPkgManager = () => {
+export const findPkgManager = () => {
 	let pkgManager = 'npm'
-	if (existsSync(path.resolve(rootPath, 'yarn.lock'))) {
+	if (fs.existsSync(path.resolve(rootPath, 'yarn.lock'))) {
 		pkgManager = 'yarn'
 	}
-	if (existsSync(path.resolve(rootPath, 'pnpm-lock.yaml'))) {
+	if (fs.existsSync(path.resolve(rootPath, 'pnpm-lock.yaml'))) {
 		pkgManager = 'pnpm'
 	}
 	return pkgManager
