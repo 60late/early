@@ -91,7 +91,7 @@ export const addDependencies = async ({ dep, devDep }: AllDeps) => {
 		await execCommand(`${installCommand} ${devDepCommand}`, rootPath)
 	}
 	if (devDepCommand) {
-		await execCommand(`${installCommand} add ${devDepCommand} -D`, rootPath)
+		await execCommand(`${installCommand} ${devDepCommand} -D`, rootPath)
 	}
 }
 
