@@ -5,7 +5,9 @@ import { addPrettier } from './prettier'
 import path from 'path'
 import fs from 'fs-extra'
 import { execCommand } from '../exec'
-import { logger } from '../util'
+import { merge as deepMerge } from 'lodash-es'
+import { readFileSync, writeFileSync } from 'fs'
+import ora from 'ora'
 
 type DepFunctions = 'tailwind' | 'prettier' | 'commitlint'
 interface FileArray {
@@ -27,7 +29,6 @@ const FUNC_MAP = {
 const rootPath = path.resolve(process.cwd(), '../', 'early-project')
 
 export const createGenerator = async () => {
-	console.log('执行微生成器')
 	const dependencies: DepFunctions[] = await checkbox({
 		message: '选择依赖(空格选中/取消，回车键确认 )',
 		choices: [
@@ -41,6 +42,8 @@ export const createGenerator = async () => {
 		console.log('没有选中任何依赖')
 		return
 	}
+
+	initHusky()
 
 	dependencies.map((item) => {
 		FUNC_MAP[item]()
@@ -84,15 +87,36 @@ export const addDependencies = async ({ dep, devDep }: AllDeps) => {
 	const depCommand = dep?.join(' ')
 	const devDepCommand = devDep?.join(' ')
 	const pkgManager = findPkgManager()
-	console.log('当前manager', pkgManager)
 	const installCommand = pkgManager === 'npm' ? 'npm install' : `${pkgManager} add`
-	logger('正在安装依赖')
+	const spinner = ora().start('依赖安装中……')
 	if (depCommand) {
 		await execCommand(`${installCommand} ${devDepCommand}`, rootPath)
 	}
 	if (devDepCommand) {
 		await execCommand(`${installCommand} ${devDepCommand} -D`, rootPath)
 	}
+	spinner.stop()
 }
 
-export const copyTemplate = (content: string, path: string) => {}
+/**
+ * update package.json by using merge function from lodash-es
+ * @param {Object} updateJson
+ */
+export const updatePackageJson = async (updateJson: Object) => {
+	const rootPath = path.resolve(process.cwd(), '../')
+	const packageJsonPath = path.resolve(rootPath, 'early-project', 'package.json')
+	let packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'))
+	const mergedJson = deepMerge(packageJson, updateJson)
+	writeFileSync(packageJsonPath, JSON.stringify(mergedJson, undefined, 2))
+}
+
+/**
+ * init husky
+ * @return {*}
+ */
+const initHusky = async () => {
+	await addDependencies({ devDep: ['husky'] })
+	let pkgManager = findPkgManager()
+	pkgManager = pkgManager === 'npm' ? 'npx' : `${pkgManager}`
+	await execCommand(`${pkgManager} husky init`, rootPath)
+}

@@ -16,11 +16,11 @@ export const execCommand = async (fullCommand: string, cmdPath: string) => {
 			},
 			(error, stdout, stderr) => {
 				if (error) {
-					logger(' ❌')
+					logger(`${fullCommand} ❌`)
 					console.log(stderr)
 					reject(error)
 				} else {
-					logger('✅ ')
+					logger(`${fullCommand} ✅`)
 					resolve('success')
 				}
 			}

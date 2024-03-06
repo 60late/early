@@ -1,10 +1,6 @@
-import { readFileSync, writeFileSync } from 'fs'
-import path from 'path'
-import { addNewFiles, addDependencies } from './index'
+import { addNewFiles, addDependencies, updatePackageJson } from './index'
 import { findPkgManager } from './index'
 
-/* prettier and eslint devDependencies **/
-const dep = []
 /* prettier and eslint devDependencies **/
 const devDep = [
 	'eslint',
@@ -94,21 +90,14 @@ module.exports = {
 	}
 ]
 
-const updatePackageJson = () => {
-	// TODO: 修改这里的位置和early-project路径
-	console.log('更新package.json')
-	const rootPath = path.resolve(process.cwd(), '../')
-	const packageJsonPath = path.resolve(rootPath, 'early-project', 'package.json')
-	let packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'))
-	packageJson.scripts = {
-		...packageJson.scripts,
-		lint: 'eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix',
-		format: 'prettier --write "./**/*.{css,less,vue,html}" --fix',
-		prepare: 'husky install',
-		'lint-staged': 'lint-staged'
-	}
-	packageJson = {
-		...packageJson,
+const updatePrettierJson = () => {
+	const updateJson = {
+		scripts: {
+			lint: 'eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix',
+			format: 'prettier --write "./**/*.{css,less,vue,html}" --fix',
+			prepare: 'husky init',
+			'lint-staged': 'lint-staged'
+		},
 		'lint-staged': {
 			'*.{js,ts}': ['eslint --fix', 'prettier --write'],
 			'*.{cjs,json,html,md}': ['prettier --write'],
@@ -116,7 +105,7 @@ const updatePackageJson = () => {
 			'*.{scss,css}': ['prettier --write']
 		}
 	}
-	writeFileSync(packageJsonPath, JSON.stringify(packageJson, undefined, 2))
+	updatePackageJson(updateJson)
 }
 
 const processNewFiles = () => {
@@ -137,5 +126,5 @@ export const addPrettier = async () => {
 	await addDependencies({ devDep })
 	processNewFiles()
 	addNewFiles(newFiles)
-	updatePackageJson()
+	updatePrettierJson()
 }
