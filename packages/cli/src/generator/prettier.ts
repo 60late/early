@@ -122,7 +122,6 @@ ${pkgManager} lint && pnpm format
 }
 
 export const addPrettier = async () => {
-	console.log('执行 add prettier')
 	await addDependencies({ devDep })
 	processNewFiles()
 	addNewFiles(newFiles)

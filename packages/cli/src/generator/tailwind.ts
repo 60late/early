@@ -62,7 +62,6 @@ const updateTailwindFiles = () => {
  * @return {*}
  */
 export const addTailwind = async () => {
-	console.log('excuting tailwind init process..')
 	await addDependencies({ devDep })
 	addNewFiles(newFiles)
 	updateTailwindFiles()

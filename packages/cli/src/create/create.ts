@@ -1,14 +1,14 @@
 import path from 'path'
 import chalk from 'chalk'
 import boxen from 'boxen'
-import { logger } from './util'
-import { execCommand } from './exec'
-import { checkMkdirExists } from './file'
+import { logger } from '../utils/util'
+import { execCommand } from '../utils/util'
+import { checkMkdirExists } from '../utils/file'
 import { handleGitMode } from './create-git'
 import { handlePresetMode } from './create-preset'
 import { handleCustomMode } from './create-custom'
 import { input, confirm, select } from '@inquirer/prompts'
-import { NameToFunctionMap, ProjectConfig } from './types'
+import { NameToFunctionMap, ProjectConfig } from '../types'
 import type { Options as BoxenOptions } from 'boxen'
 
 /**

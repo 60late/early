@@ -47,7 +47,6 @@ npx --no -- commitlint --edit
 ]
 
 export const addCommitLint = async () => {
-	console.log('执行 add commitLint')
 	addNewFiles(newFiles)
-	addDependencies({ devDep })
+	await addDependencies({ devDep })
 }

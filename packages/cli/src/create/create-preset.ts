@@ -1,11 +1,11 @@
 import ora from 'ora'
 import path from 'path'
-import { copyDir, getDirNames } from './file'
-import { ProjectConfig } from './types'
+import { copyDir, getDirNames } from '../utils/file'
+import { ProjectConfig } from '../types'
 import { handleInstall } from './create'
 import { select } from '@inquirer/prompts'
 import { handleSuccessLog } from './create'
-import type { SelectChoice } from './types'
+import type { SelectChoice } from '../types'
 
 /**
  * get all directory names in `template` directory

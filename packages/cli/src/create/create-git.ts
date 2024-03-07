@@ -1,8 +1,8 @@
 import ora from 'ora'
-import { execCommand } from './exec'
-import { ProjectConfig } from './types'
+import { execCommand } from '../utils/util'
+import { ProjectConfig } from '../types'
 import { input } from '@inquirer/prompts'
-import { createDir } from './file'
+import { createDir } from '../utils/file'
 import { handleInstall, handleSuccessLog } from './create'
 
 /**

@@ -1,6 +1,13 @@
 import path from 'path'
-import { logger } from './util'
 import { exec } from 'child_process'
+
+/**
+ * simplefy console.log
+ * @param {array} args
+ */
+export const logger = (...args: any) => {
+	console.log(...args)
+}
 
 /**
  * @description: execute command
@@ -16,11 +23,9 @@ export const execCommand = async (fullCommand: string, cmdPath: string) => {
 			},
 			(error, stdout, stderr) => {
 				if (error) {
-					logger(`${fullCommand} ❌`)
 					console.log(stderr)
 					reject(error)
 				} else {
-					logger(`${fullCommand} ✅`)
 					resolve('success')
 				}
 			}

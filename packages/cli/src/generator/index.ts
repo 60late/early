@@ -4,7 +4,7 @@ import { addCommitLint } from './commitlint'
 import { addPrettier } from './prettier'
 import path from 'path'
 import fs from 'fs-extra'
-import { execCommand } from '../exec'
+import { execCommand } from '../utils/util'
 import { merge as deepMerge } from 'lodash-es'
 import { readFileSync, writeFileSync } from 'fs'
 import ora from 'ora'
@@ -27,6 +27,7 @@ const FUNC_MAP = {
 }
 
 const rootPath = path.resolve(process.cwd(), '../', 'early-project')
+const spinner = ora()
 
 export const createGenerator = async () => {
 	const dependencies: DepFunctions[] = await checkbox({
@@ -37,17 +38,17 @@ export const createGenerator = async () => {
 			{ name: '提交信息校验	(commitlint)', value: 'commitlint' }
 		]
 	})
-	console.log('选中的依赖', dependencies)
 	if (!dependencies.length) {
 		console.log('没有选中任何依赖')
 		return
 	}
-
-	initHusky()
+	spinner.start('插件安装中')
+	await initHusky()
 
 	dependencies.map((item) => {
 		FUNC_MAP[item]()
 	})
+	spinner.succeed('插件安装完成')
 }
 
 /**
@@ -88,14 +89,12 @@ export const addDependencies = async ({ dep, devDep }: AllDeps) => {
 	const devDepCommand = devDep?.join(' ')
 	const pkgManager = findPkgManager()
 	const installCommand = pkgManager === 'npm' ? 'npm install' : `${pkgManager} add`
-	const spinner = ora().start('依赖安装中……')
 	if (depCommand) {
 		await execCommand(`${installCommand} ${devDepCommand}`, rootPath)
 	}
 	if (devDepCommand) {
 		await execCommand(`${installCommand} ${devDepCommand} -D`, rootPath)
 	}
-	spinner.stop()
 }
 
 /**
