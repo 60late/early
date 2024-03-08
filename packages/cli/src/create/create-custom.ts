@@ -5,7 +5,7 @@ import { writeFileSync, readFileSync } from 'fs'
 import { copyDir } from '../utils/file'
 import { execCommand, logger } from '../utils/util'
 import { ProjectConfig } from '../types'
-import { VUE_PC_UI, VUE_H5_UI, REACT_PC_UI, REACT_H5_UI, DEFAULT_UI } from '../consts'
+import { VUE_PC_UI, VUE_H5_UI, REACT_PC_UI, REACT_H5_UI, DEFAULT_UI } from '../utils/consts'
 import { handleSuccessLog } from './create'
 
 const spinner = ora()

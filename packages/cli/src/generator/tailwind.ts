@@ -1,6 +1,4 @@
-import { readFileSync, writeFileSync } from 'fs'
-import path from 'path'
-import { addNewFiles, addDependencies } from './index'
+import { addNewFiles, addDependencies, updateMainJs } from './index'
 
 /* tailwind devDependencies **/
 const devDep = ['tailwindcss', 'postcss', 'autoprefixer']
@@ -44,25 +42,11 @@ module.exports = {
 ]
 
 /**
- * update tailwind relate files
- * @return {*}
- */
-const updateTailwindFiles = () => {
-	// TODO: 修改这里的位置和early-project路径
-	const rootPath = path.resolve(process.cwd(), '../')
-	let mainJsString = readFileSync(path.resolve(rootPath, 'early-project', 'src', 'main.js'), 'utf-8')
-	if (!mainJsString.includes(`import '../tailwind.css'`)) {
-		mainJsString = `import '../tailwind.css'\n${mainJsString}`
-		writeFileSync(path.resolve(rootPath, 'early-project', 'src', 'main.js'), mainJsString)
-	}
-}
-
-/**
  * add tailwind
  * @return {*}
  */
 export const addTailwind = async () => {
 	await addDependencies({ devDep })
 	addNewFiles(newFiles)
-	updateTailwindFiles()
+	updateMainJs(`import '../tailwind.css'`)
 }

@@ -2,6 +2,7 @@ import { checkbox } from '@inquirer/prompts'
 import { addTailwind } from './tailwind'
 import { addCommitLint } from './commitlint'
 import { addPrettier } from './prettier'
+import { addVant } from './vant'
 import path from 'path'
 import fs from 'fs-extra'
 import { execCommand } from '../utils/util'
@@ -9,7 +10,7 @@ import { merge as deepMerge } from 'lodash-es'
 import { readFileSync, writeFileSync } from 'fs'
 import ora from 'ora'
 
-type DepFunctions = 'tailwind' | 'prettier' | 'commitlint'
+type DepFunctions = 'tailwind' | 'prettier' | 'commitlint' | 'vant'
 interface FileArray {
 	filePath: string
 	content: string
@@ -17,13 +18,14 @@ interface FileArray {
 
 interface AllDeps {
 	dep?: string[]
-	devDep: string[]
+	devDep?: string[]
 }
 
 const FUNC_MAP = {
 	tailwind: addTailwind,
 	prettier: addPrettier,
-	commitlint: addCommitLint
+	commitlint: addCommitLint,
+	vant: addVant
 }
 
 const rootPath = path.resolve(process.cwd(), '../', 'early-project')
@@ -35,7 +37,8 @@ export const createGenerator = async () => {
 		choices: [
 			{ name: '原子化样式	(tailwindcss)', value: 'tailwind' },
 			{ name: '代码格式化	(eslint+prettier)', value: 'prettier' },
-			{ name: '提交信息校验	(commitlint)', value: 'commitlint' }
+			{ name: '提交信息校验	(commitlint)', value: 'commitlint' },
+			{ name: '引入vant	(vant)', value: 'vant' }
 		]
 	})
 	if (!dependencies.length) {
@@ -103,10 +106,23 @@ export const addDependencies = async ({ dep, devDep }: AllDeps) => {
  */
 export const updatePackageJson = async (updateJson: Object) => {
 	const rootPath = path.resolve(process.cwd(), '../')
-	const packageJsonPath = path.resolve(rootPath, 'early-project', 'package.json')
+	const packageJsonPath = path.resolve(rootPath, 'package.json')
 	let packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'))
 	const mergedJson = deepMerge(packageJson, updateJson)
 	writeFileSync(packageJsonPath, JSON.stringify(mergedJson, undefined, 2))
+}
+
+/**
+ * update main.js by inserting into top of the file
+ * @param {string} insertContent
+ * @return {*}
+ */
+export const updateMainJs = (insertContent: string) => {
+	let mainJsString = readFileSync(path.resolve(rootPath, 'src', 'main.js'), 'utf-8')
+	if (!mainJsString.includes(insertContent)) {
+		mainJsString = `${insertContent}\n${mainJsString}`
+		writeFileSync(path.resolve(rootPath, 'src', 'main.js'), mainJsString)
+	}
 }
 
 /**
