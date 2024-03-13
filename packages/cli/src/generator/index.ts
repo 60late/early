@@ -93,7 +93,7 @@ export const addDependencies = async ({ dep, devDep }: AllDeps) => {
 	const pkgManager = findPkgManager()
 	const installCommand = pkgManager === 'npm' ? 'npm install' : `${pkgManager} add`
 	if (depCommand) {
-		await execCommand(`${installCommand} ${devDepCommand}`, rootPath)
+		await execCommand(`${installCommand} ${depCommand}`, rootPath)
 	}
 	if (devDepCommand) {
 		await execCommand(`${installCommand} ${devDepCommand} -D`, rootPath)
