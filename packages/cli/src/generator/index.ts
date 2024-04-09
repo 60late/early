@@ -36,15 +36,17 @@ export const createGenerator = async () => {
 		message: '选择依赖(空格选中/取消，回车键确认 )',
 		choices: [
 			{ name: '原子化样式	(tailwindcss)', value: 'tailwind' },
-			{ name: '代码格式化	(eslint+prettier)', value: 'prettier' },
+			{ name: '代码规范校验	(eslint+prettier)', value: 'prettier' },
 			{ name: '提交信息校验	(commitlint)', value: 'commitlint' },
 			{ name: '引入vant	(vant)', value: 'vant' }
 		]
 	})
+
 	if (!dependencies.length) {
 		console.log('没有选中任何依赖')
 		return
 	}
+
 	spinner.start('插件安装中')
 	await initHusky()
 
@@ -105,7 +107,6 @@ export const addDependencies = async ({ dep, devDep }: AllDeps) => {
  * @param {Object} updateJson
  */
 export const updatePackageJson = async (updateJson: Object) => {
-	const rootPath = path.resolve(process.cwd(), '../')
 	const packageJsonPath = path.resolve(rootPath, 'package.json')
 	let packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'))
 	const mergedJson = deepMerge(packageJson, updateJson)

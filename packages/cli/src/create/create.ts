@@ -6,10 +6,24 @@ import { execCommand } from '../utils/util'
 import { checkMkdirExists } from '../utils/file'
 import { handleGitMode } from './create-git'
 import { handlePresetMode } from './create-preset'
-import { handleCustomMode } from './create-custom'
+// import { handleCustomMode } from './create-custom'
 import { input, confirm, select } from '@inquirer/prompts'
 import { NameToFunctionMap, ProjectConfig } from '../types'
 import type { Options as BoxenOptions } from 'boxen'
+
+/**
+ * Check if package manager exist before install dependencies
+ * @param {ProjectConfig} config
+ */
+export const checkPkgManager = async (config: ProjectConfig) => {
+	const { pkgManager, targetDir } = config
+	const checkCommand = `${pkgManager} --version`
+	const installCommand = `npm install ${pkgManager} -g`
+	const installPkgManager = () => {
+		execCommand(installCommand, <string>targetDir)
+	}
+	await execCommand(checkCommand, <string>targetDir, installPkgManager)
+}
 
 /**
  * In order to init husky,need to init git first
@@ -27,6 +41,7 @@ export const handleInitGit = async (config: ProjectConfig) => {
 export const handleInstall = async (config: ProjectConfig) => {
 	const { pkgManager, targetDir } = config
 	await handleInitGit(config)
+	await checkPkgManager(config)
 	let command = `${pkgManager} install`
 	if (pkgManager === 'yarn') command = `${pkgManager}`
 	await execCommand(command, <string>targetDir)
@@ -64,8 +79,8 @@ export const handleSuccessLog = (config: ProjectConfig) => {
  */
 const MODE_MAP: NameToFunctionMap = {
 	preset: handlePresetMode,
-	git: handleGitMode,
-	custom: handleCustomMode
+	git: handleGitMode
+	// custom: handleCustomMode
 }
 
 export const createProject = async () => {

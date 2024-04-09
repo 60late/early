@@ -13,8 +13,9 @@ export const logger = (...args: any) => {
  * @description: execute command
  * @param {string} command
  * @param {string} cmdPath
+ * @param {Function} callBack
  */
-export const execCommand = async (fullCommand: string, cmdPath: string) => {
+export const execCommand = async (fullCommand: string, cmdPath: string, callBack?: () => void) => {
 	return new Promise((resolve, reject) => {
 		exec(
 			fullCommand,
@@ -24,7 +25,8 @@ export const execCommand = async (fullCommand: string, cmdPath: string) => {
 			(error, stdout, stderr) => {
 				if (error) {
 					console.log(stderr)
-					reject(error)
+					callBack && callBack()
+					// reject(error)
 				} else {
 					resolve('success')
 				}
